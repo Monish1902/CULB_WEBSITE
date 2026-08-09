@@ -8,6 +8,52 @@ import './render-store.js';
 const ADMIN_ID = "Kreatroz";
 const ADMIN_PASS = "We are Kreatorz!";
 
+// Utility to compress uploaded images before saving to store / localStorage
+function readAndCompressImageFile(file, callback, maxWidth = 1600, maxHeight = 1000, quality = 0.8) {
+  if (!file) return;
+
+  // Small SVG or tiny files don't need canvas compression
+  if (file.type === 'image/svg+xml' || file.size < 60000) {
+    const reader = new FileReader();
+    reader.onload = (e) => callback(e.target.result);
+    reader.onerror = () => callback(null);
+    reader.readAsDataURL(file);
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      let width = img.width;
+      let height = img.height;
+
+      if (width > maxWidth || height > maxHeight) {
+        if (width / height > maxWidth / maxHeight) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        } else {
+          width = Math.round((width * maxHeight) / height);
+          height = maxHeight;
+        }
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+
+      const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+      callback(compressedDataUrl);
+    };
+    img.onerror = () => callback(e.target.result);
+    img.src = e.target.result;
+  };
+  reader.onerror = () => callback(null);
+  reader.readAsDataURL(file);
+}
+
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initAdminApp);
 } else {
@@ -172,14 +218,13 @@ function loadHomeTab() {
       const file = e.target.files[0];
       if (!file) return;
 
-      const reader = new FileReader();
-      reader.onload = (evt) => {
+      readAndCompressImageFile(file, (dataUrl) => {
+        if (!dataUrl) return;
         const targetInput = document.getElementById(targetId);
         const previewImg = document.getElementById(previewId);
-        if (targetInput) targetInput.value = evt.target.result;
-        if (previewImg) previewImg.src = evt.target.result;
-      };
-      reader.readAsDataURL(file);
+        if (targetInput) targetInput.value = dataUrl;
+        if (previewImg) previewImg.src = dataUrl;
+      });
     };
   });
 
@@ -189,15 +234,14 @@ function loadHomeTab() {
     homeTabNewSlideFile.onchange = (e) => {
       const file = e.target.files[0];
       if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (evt) => {
+      readAndCompressImageFile(file, (dataUrl) => {
+        if (!dataUrl) return;
         const slides = KreatorzStore.getHeroSlides();
-        slides.push(evt.target.result);
+        slides.push(dataUrl);
         KreatorzStore.updateHeroSlides(slides);
         renderHeroSlideshowAdmin();
         showToast("NEW HERO SLIDE UPLOADED & ADDED TO BANNER!");
-      };
-      reader.readAsDataURL(file);
+      });
     };
   }
 
@@ -468,13 +512,12 @@ function openProjectModal(p = null) {
   fileInput.onchange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (evt) => {
-      urlInput.value = evt.target.result;
-      previewImg.src = evt.target.result;
+    readAndCompressImageFile(file, (dataUrl) => {
+      if (!dataUrl) return;
+      urlInput.value = dataUrl;
+      previewImg.src = dataUrl;
       previewImg.style.display = 'block';
-    };
-    reader.readAsDataURL(file);
+    });
   };
 
   document.getElementById('form-project-modal').onsubmit = (e) => {
@@ -606,13 +649,12 @@ function openTeamModal(m = null) {
   fileInput.onchange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (evt) => {
-      urlInput.value = evt.target.result;
-      previewImg.src = evt.target.result;
+    readAndCompressImageFile(file, (dataUrl) => {
+      if (!dataUrl) return;
+      urlInput.value = dataUrl;
+      previewImg.src = dataUrl;
       previewImg.style.display = 'block';
-    };
-    reader.readAsDataURL(file);
+    });
   };
 
   document.getElementById('form-team-modal').onsubmit = (e) => {
@@ -754,15 +796,14 @@ function openAchievementModal(a = null) {
     fileInput.onchange = (e) => {
       const file = e.target.files[0];
       if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (evt) => {
-        if (urlInput) urlInput.value = evt.target.result;
+      readAndCompressImageFile(file, (dataUrl) => {
+        if (!dataUrl) return;
+        if (urlInput) urlInput.value = dataUrl;
         if (previewImg) {
-          previewImg.src = evt.target.result;
+          previewImg.src = dataUrl;
           previewImg.style.display = 'block';
         }
-      };
-      reader.readAsDataURL(file);
+      });
     };
   }
 
@@ -908,13 +949,12 @@ function openBlogModalEditor(b = null) {
   fileInput.onchange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (evt) => {
-      urlInput.value = evt.target.result;
-      previewImg.src = evt.target.result;
+    readAndCompressImageFile(file, (dataUrl) => {
+      if (!dataUrl) return;
+      urlInput.value = dataUrl;
+      previewImg.src = dataUrl;
       previewImg.style.display = 'block';
-    };
-    reader.readAsDataURL(file);
+    });
   };
 
   document.getElementById('form-blog-modal').onsubmit = (e) => {
@@ -1065,15 +1105,14 @@ function loadImagesTab() {
     newHeroFile.onchange = (e) => {
       const file = e.target.files[0];
       if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (evt) => {
+      readAndCompressImageFile(file, (dataUrl) => {
+        if (!dataUrl) return;
         const slides = KreatorzStore.getHeroSlides();
-        slides.push(evt.target.result);
+        slides.push(dataUrl);
         KreatorzStore.updateHeroSlides(slides);
         renderHeroSlideshowAdmin();
         showToast("NEW HERO SLIDE UPLOADED & ADDED!");
-      };
-      reader.readAsDataURL(file);
+      });
     };
   }
 
@@ -1108,9 +1147,8 @@ function loadImagesTab() {
       const targetId = fileInput.getAttribute('data-target');
       const prevId = fileInput.getAttribute('data-preview');
       
-      const reader = new FileReader();
-      reader.onload = (evt) => {
-        const dataUrl = evt.target.result;
+      readAndCompressImageFile(file, (dataUrl) => {
+        if (!dataUrl) return;
         if (targetId && document.getElementById(targetId)) {
           document.getElementById(targetId).value = dataUrl;
         }
@@ -1118,8 +1156,7 @@ function loadImagesTab() {
           document.getElementById(prevId).src = dataUrl;
         }
         showToast("IMAGE FILE LOADED!");
-      };
-      reader.readAsDataURL(file);
+      });
     };
   });
 
@@ -1237,16 +1274,14 @@ function renderImagesManagerGrid() {
       const file = e.target.files[0];
       if (!file) return;
 
-      const reader = new FileReader();
-      reader.onload = (evt) => {
-        const dataUrl = evt.target.result;
+      readAndCompressImageFile(file, (dataUrl) => {
+        if (!dataUrl) return;
         const urlInput = document.getElementById(`item-url-${idx}`);
         const prevImg = document.getElementById(`item-prev-${idx}`);
         if (urlInput) urlInput.value = dataUrl;
         if (prevImg) prevImg.src = dataUrl;
         showToast("IMAGE FILE LOADED! CLICK SAVE TO APPLY.");
-      };
-      reader.readAsDataURL(file);
+      });
     };
   });
 }
@@ -1400,15 +1435,14 @@ function renderHeroSlideshowAdmin() {
       const file = e.target.files[0];
       if (!file) return;
 
-      const reader = new FileReader();
-      reader.onload = (evt) => {
+      readAndCompressImageFile(file, (dataUrl) => {
+        if (!dataUrl) return;
         const slides = KreatorzStore.getHeroSlides();
-        slides[idx] = evt.target.result;
+        slides[idx] = dataUrl;
         KreatorzStore.updateHeroSlides(slides);
         renderHeroSlideshowAdmin();
         showToast("SLIDE IMAGE UPDATED!");
-      };
-      reader.readAsDataURL(file);
+      });
     };
   });
 }

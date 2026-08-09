@@ -333,28 +333,37 @@ const DEFAULT_DATA = {
   messages: []
 };
 
+let _memoryStore = null;
+
 // Global Store Helper Object
 window.KreatorzStore = {
   getStore: function() {
     try {
       const data = localStorage.getItem(STORAGE_KEY);
       if (!data) {
+        if (_memoryStore) return _memoryStore;
         this.saveStore(DEFAULT_DATA);
         return DEFAULT_DATA;
       }
-      return JSON.parse(data);
+      _memoryStore = JSON.parse(data);
+      return _memoryStore;
     } catch (e) {
-      console.error("Error reading localStorage, returning default", e);
-      return DEFAULT_DATA;
+      console.error("Error reading localStorage, returning default or memory store", e);
+      return _memoryStore || DEFAULT_DATA;
     }
   },
 
   saveStore: function(data) {
+    _memoryStore = data;
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       window.dispatchEvent(new CustomEvent('kreatorzDataUpdated'));
     } catch (e) {
       console.error("Error saving to localStorage", e);
+      if (e.name === 'QuotaExceededError' || e.code === 22) {
+        alert("⚠️ Local Storage limit reached! The change has been applied for this session. For permanent storage of large images, consider compressing or providing an image URL.");
+      }
+      window.dispatchEvent(new CustomEvent('kreatorzDataUpdated'));
     }
   },
 
