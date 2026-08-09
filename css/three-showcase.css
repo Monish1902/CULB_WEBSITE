@@ -1,0 +1,194 @@
+/* ==========================================================================
+   Kreatorz Robotics Club - 3D Showcase Specific Stylesheet
+   ========================================================================== */
+
+.showcase-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+@media (min-width: 992px) {
+  .showcase-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    position: relative;
+    align-items: start;
+  }
+}
+
+/* Fixed 3D Canvas Side */
+.showcase-canvas-wrapper {
+  position: relative;
+  width: 100%;
+  height: 450px;
+  background-color: #EAE7DC;
+  border-bottom: var(--border-width) solid var(--border-dark);
+  overflow: hidden;
+}
+
+@media (min-width: 992px) {
+  .showcase-canvas-wrapper {
+    position: sticky;
+    top: 80px;
+    height: calc(100vh - 80px);
+    border-bottom: none;
+    border-right: var(--border-width) solid var(--border-dark);
+  }
+}
+
+/* Three.js Canvas Element */
+#three-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  outline: none;
+}
+
+/* Floating HUD Overlay on Canvas */
+.canvas-hud-overlay {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.25rem;
+  right: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.canvas-hud-overlay > * {
+  pointer-events: auto;
+}
+
+.hud-badge {
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 2px solid var(--border-dark);
+  box-shadow: 3px 3px 0px #0D0D0D;
+  padding: 0.4rem 0.8rem;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hud-status-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #10B981;
+  border: 1.5px solid var(--border-dark);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.canvas-controls {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 10;
+}
+
+.hud-btn {
+  background-color: #FFFFFF;
+  border: 2px solid var(--border-dark);
+  box-shadow: 2px 2px 0px #0D0D0D;
+  padding: 0.4rem 0.75rem;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.hud-btn:hover {
+  background-color: var(--electric-blue);
+  color: #FFFFFF;
+}
+
+/* 2D Scrollable Storytelling Panel */
+.showcase-content-panel {
+  padding: 2rem 1.5rem;
+}
+
+@media (min-width: 992px) {
+  .showcase-content-panel {
+    padding: 3rem 3.5rem;
+  }
+}
+
+.showcase-step-section {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2.5rem 0;
+  border-bottom: 2px dashed #CCCCCC;
+}
+
+.showcase-step-section:last-child {
+  border-bottom: none;
+}
+
+.step-indicator {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--electric-blue);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.step-indicator::before {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background-color: var(--electric-blue);
+  border: 1.5px solid var(--border-dark);
+}
+
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.spec-box {
+  background-color: #FFFFFF;
+  border: 2px solid var(--border-dark);
+  box-shadow: 3px 3px 0px #0D0D0D;
+  padding: 1rem;
+}
+
+.spec-box-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #666666;
+  text-transform: uppercase;
+}
+
+.spec-box-val {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-top: 0.2rem;
+}

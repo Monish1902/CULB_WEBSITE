@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Control Center | Kreatorz Robotics Club</title>
+  <meta name="description" content="Centralized Content Management & Admin Panel for Kreatorz Robotics Club Website." />
+  <link rel="stylesheet" href="./css/styles.css" />
+  <style>
+    .admin-body {
+      background-color: var(--bg-cream);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .admin-header {
+      background-color: var(--text-dark);
+      color: #FFFFFF;
+      padding: 1rem 1.5rem;
+      border-bottom: 3px solid #000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .admin-title-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .admin-title-badge h1 {
+      color: #FFFFFF;
+      font-size: 1.35rem;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .admin-auth-card {
+      max-width: 460px;
+      margin: 4rem auto;
+      width: 90%;
+    }
+    .admin-nav-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      background-color: #FFFFFF;
+      padding: 0.75rem 1.5rem;
+      border-bottom: var(--border-width) solid var(--border-dark);
+      box-shadow: 0 4px 0px rgba(0,0,0,0.05);
+    }
+    .admin-tab-btn {
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      border: var(--border-width) solid var(--border-dark);
+      padding: 0.5rem 1rem;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 2px 2px 0px #0D0D0D;
+      transition: all 0.15s ease;
+    }
+    .admin-tab-btn:hover, .admin-tab-btn.active {
+      background-color: var(--electric-blue);
+      color: #FFFFFF;
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0px #0D0D0D;
+    }
+    .admin-tab-content {
+      display: none;
+      padding: 2rem 0;
+    }
+    .admin-tab-content.active {
+      display: block;
+    }
+    .admin-form-group {
+      margin-bottom: 1.25rem;
+    }
+    .admin-form-group label {
+      display: block;
+      font-weight: 900;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+      color: var(--text-dark);
+    }
+    .admin-input, .admin-textarea, .admin-select {
+      width: 100%;
+      padding: 0.7rem;
+      border: var(--border-width) solid var(--border-dark);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      background-color: #FFFFFF;
+      box-shadow: 2px 2px 0px #0D0D0D;
+    }
+    .admin-textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background-color: #FFFFFF;
+      border: var(--border-width) solid var(--border-dark);
+      box-shadow: var(--shadow-main);
+    }
+    .admin-table th, .admin-table td {
+      padding: 0.85rem;
+      border: 1px solid var(--border-dark);
+      text-align: left;
+      font-size: 0.9rem;
+    }
+    .admin-table th {
+      background-color: var(--text-dark);
+      color: #FFFFFF;
+      font-family: var(--font-heading);
+      text-transform: uppercase;
+      font-size: 0.85rem;
+    }
+    .toast-notify {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #10B981;
+      color: #FFFFFF;
+      padding: 1rem 1.5rem;
+      border: var(--border-width) solid var(--border-dark);
+      box-shadow: 4px 4px 0px #000;
+      font-weight: 900;
+      text-transform: uppercase;
+      z-index: 99999;
+      display: none;
+    }
+  </style>
+</head>
+<body class="admin-body">
+
+  <!-- Admin Navigation Header -->
+  <header class="admin-header">
+    <div class="admin-title-badge">
+      <span style="font-size: 1.8rem;">⚙️</span>
+      <div>
+        <h1>KREATROZ ADMIN CENTER</h1>
+        <div style="font-size: 0.75rem; color: #BBB; font-family: var(--font-body);">MVGR ROBOTICS WEBSITE CONTROL PANEL</div>
+      </div>
+    </div>
+
+    <div id="admin-header-actions" style="display: none; align-items: center; gap: 1rem;">
+      <span class="eyebrow-tag" style="background-color: #10B981; margin: 0;">LOGGED IN: KREATROZ</span>
+      <a href="index.html" target="_blank" class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; background-color: #fff;">LIVE SITE ↗</a>
+      <button id="admin-logout-btn" class="btn btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; background-color: #FF2D5B;">LOGOUT</button>
+    </div>
+  </header>
+
+  <!-- Login Overlay / Screen -->
+  <div id="admin-login-screen">
+    <div class="container-custom">
+      <div class="nb-card admin-auth-card">
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+          <div style="font-size: 3rem; margin-bottom: 0.5rem;">🛡️</div>
+          <h2 style="font-size: 1.8rem; text-transform: uppercase; margin-bottom: 0.5rem;">AUTHENTICATION REQUIRED</h2>
+          <p style="font-size: 0.9rem; color: #555;">Enter admin credentials to modify the website content.</p>
+        </div>
+
+        <form id="admin-login-form">
+          <div class="admin-form-group">
+            <label>ADMIN ID *</label>
+            <input type="text" id="login-id" class="admin-input" placeholder="Enter Admin ID" required />
+          </div>
+
+          <div class="admin-form-group">
+            <label>PASSWORD *</label>
+            <input type="password" id="login-pass" class="admin-input" placeholder="Enter Password" required />
+          </div>
+
+          <div id="login-error-msg" style="display: none; background-color: #FFE2E2; color: #D32F2F; border: 2px solid #D32F2F; padding: 0.75rem; font-weight: 700; font-size: 0.85rem; margin-bottom: 1.25rem;">
+            ❌ Invalid Admin ID or Password. Please try again.
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">ACCESS ADMIN PANEL</button>
+        </form>
+
+        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 2px dashed #CCC; text-align: center; font-size: 0.8rem; color: #666;">
+          <strong>SECURITY NOTICE:</strong> Configured for ID: <code>Kreatroz</code> | Pass: <code>We are Kreatorz!</code>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Authenticated Admin Workspace -->
+  <div id="admin-workspace" style="display: none;">
+    <div class="admin-layout-wrapper">
+      
+      <!-- Modern Admin Sidebar Navigation -->
+      <aside class="admin-sidebar">
+        <div class="admin-sidebar-link active" data-tab="tab-home"><span class="nav-icon">🏠</span> <span>Home Page</span></div>
+        <div class="admin-sidebar-link" data-tab="tab-about"><span class="nav-icon">📖</span> <span>About Us</span></div>
+        <div class="admin-sidebar-link" data-tab="tab-projects"><span class="nav-icon">🚀</span> <span>Projects</span></div>
+        <div class="admin-sidebar-link" data-tab="tab-team"><span class="nav-icon">👥</span> <span>Team Members</span></div>
+        <div class="admin-sidebar-link" data-tab="tab-achievements"><span class="nav-icon">🏆</span> <span>Achievements</span></div>
+        <div class="admin-sidebar-link" data-tab="tab-blogs"><span class="nav-icon">✍️</span> <span>Blogs & Dispatches</span></div>
+        <div class="admin-sidebar-link" data-tab="tab-images"><span class="nav-icon">🖼️</span> <span>Media & Images</span></div>
+        <div class="admin-sidebar-link" data-tab="tab-contact"><span class="nav-icon">📬</span> <span>Contact & Inbox</span></div>
+        <div class="admin-sidebar-link" data-tab="tab-system"><span class="nav-icon">⚙️</span> <span>System & Backup</span></div>
+      </aside>
+
+      <!-- Main Workspace Section Area -->
+      <main class="admin-main-area">
+      
+      <!-- TAB 1: HOME PAGE -->
+      <div id="tab-home" class="admin-tab-content active">
+
+        <!-- GLOBAL BRANDING & WEBSITE NAME CONFIGURATION -->
+        <div class="nb-card" style="margin-bottom: 2rem; background-color: #FFF; border: var(--border-width) solid var(--border-dark);">
+          <div class="eyebrow-tag" style="background-color: var(--electric-blue); color: #FFF;">GLOBAL BRANDING & IDENTITY</div>
+          <h2 style="font-size: 1.6rem; text-transform: uppercase; margin-bottom: 0.5rem;">WEBSITE NAME & BRANDING</h2>
+          <p style="font-size: 0.95rem; color: #555; margin-bottom: 1.5rem;">Change the website name ("Kreatorz"), logo icon/letter, and tagline displayed across the website header, page titles, admin panel, and footers.</p>
+
+          <form id="form-site-branding">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 1.25rem;">
+              <div class="admin-form-group">
+                <label>WEBSITE / CLUB NAME *</label>
+                <input type="text" id="site-branding-name" class="admin-input" required placeholder="e.g. Kreatorz" />
+              </div>
+
+              <div class="admin-form-group">
+                <label>HEADER LOGO ICON / LETTER *</label>
+                <input type="text" id="site-branding-icon" class="admin-input" required maxlength="5" placeholder="e.g. K" />
+              </div>
+
+              <div class="admin-form-group">
+                <label>SUBTITLE / TAGLINE</label>
+                <input type="text" id="site-branding-tagline" class="admin-input" placeholder="e.g. ROBOTICS CLUB • MVGR CE" />
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="background-color: var(--electric-blue);">
+              💾 SAVE WEBSITE NAME & BRANDING
+            </button>
+          </form>
+        </div>
+
+        <!-- HERO BANNER SLIDESHOW GALLERY MANAGER -->
+        <div class="nb-card" style="margin-bottom: 2rem; background-color: #FFF; border: var(--border-width) solid var(--border-dark);">
+          <div class="eyebrow-tag" style="background-color: var(--yellow-accent); color: #000;">HERO BANNER SLIDESHOW GALLERY</div>
+          <h2 style="font-size: 1.6rem; text-transform: uppercase; margin-bottom: 0.5rem;">HOMEPAGE HERO BANNER SLIDESHOW IMAGES</h2>
+          <p style="font-size: 0.95rem; color: #555; margin-bottom: 1.5rem;">Upload local photos from your computer or enter image URLs to customize the rotating slideshow banner on the Home page.</p>
+
+          <div id="home-tab-hero-slideshow-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+            <!-- Dynamic hero slide cards -->
+          </div>
+
+          <div style="background-color: var(--bg-cream); border: var(--border-width) solid var(--border-dark); padding: 1.25rem; display: flex; flex-direction: column; gap: 1rem;">
+            <div style="font-weight: 900; font-size: 0.85rem; text-transform: uppercase; color: var(--electric-blue);">➕ ADD NEW IMAGE TO HERO BANNER SLIDESHOW</div>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <input type="text" id="home-tab-new-hero-slide-url" class="admin-input" placeholder="Paste image URL (e.g. https://...)" style="flex: 1; min-width: 250px;" />
+              <button type="button" onclick="addHomeTabHeroSlideFromInput()" class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.6rem 1rem;">
+                ➕ ADD URL SLIDE
+              </button>
+              <label class="btn btn-primary" style="font-size: 0.85rem; padding: 0.6rem 1rem; cursor: pointer; margin: 0; background-color: var(--electric-blue); color: #FFF;">
+                📁 UPLOAD LOCAL IMAGE
+                <input type="file" id="home-tab-new-hero-slide-file" accept="image/*" style="display: none;" />
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- HOME SECTION PHOTOS MANAGER -->
+        <div class="nb-card" style="margin-bottom: 2rem; background-color: #FFF; border: var(--border-width) solid var(--border-dark);">
+          <div class="eyebrow-tag" style="background-color: var(--pink-accent); color: #FFF;">HOME SECTION PHOTO</div>
+          <h2 style="font-size: 1.6rem; text-transform: uppercase; margin-bottom: 0.5rem;">EDIT HOME SECTION IMAGES</h2>
+          <p style="font-size: 0.95rem; color: #555; margin-bottom: 1.5rem;">Upload or update photos displayed in the "Who We Are / Lab Team" section on the Home page.</p>
+
+          <form id="form-home-section-photos" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+            <div style="border: var(--border-width) solid var(--border-dark); padding: 1rem; background-color: var(--bg-cream);">
+              <div style="font-weight: 900; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 0.5rem;">HOME "WHO WE ARE" LAB TEAM PHOTO</div>
+              <div style="height: 140px; border: var(--border-width) solid var(--border-dark); overflow: hidden; margin-bottom: 0.75rem; background: #EEE;">
+                <img id="home-tab-img-prev-labImg" src="" style="width: 100%; height: 100%; object-fit: cover;" alt="Lab Preview" />
+              </div>
+              <div class="admin-form-group">
+                <label>IMAGE URL</label>
+                <input type="text" id="home-tab-img-url-labImg" class="admin-input" placeholder="Paste URL or upload file..." />
+              </div>
+              <div style="display: flex; gap: 0.5rem;">
+                <label class="btn btn-secondary" style="flex: 1; padding: 0.45rem; font-size: 0.75rem; text-align: center; cursor: pointer; margin: 0;">
+                  📁 UPLOAD NEW PHOTO
+                  <input type="file" accept="image/*" class="home-tab-file-uploader" data-target="home-tab-img-url-labImg" data-preview="home-tab-img-prev-labImg" style="display: none;" />
+                </label>
+                <button type="button" onclick="saveHomeSectionPhoto()" class="btn btn-primary" style="padding: 0.45rem 0.8rem; font-size: 0.75rem;">
+                  💾 SAVE
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="nb-card" style="margin-bottom: 2rem;">
+          <div class="eyebrow-tag">HERO TEXT & MISSION CONFIGURATION</div>
+          <h2 style="font-size: 1.6rem; text-transform: uppercase; margin-bottom: 1.5rem;">EDIT HOME HERO HEADLINE & MISSION</h2>
+
+          <form id="form-home-content">
+            <div class="admin-form-group">
+              <label>HERO MAIN HEADLINE</label>
+              <input type="text" id="home-hero-title" class="admin-input" required />
+            </div>
+
+            <div class="admin-form-group">
+              <label>HERO SUBTITLE / PARAGRAPH</label>
+              <textarea id="home-hero-subtitle" class="admin-textarea" rows="3" required></textarea>
+            </div>
+
+            <div class="admin-form-group">
+              <label>MISSION TITLE</label>
+              <input type="text" id="home-mission-title" class="admin-input" required />
+            </div>
+
+            <div class="admin-form-group">
+              <label>MISSION DESCRIPTION</label>
+              <textarea id="home-mission-desc" class="admin-textarea" rows="4" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">SAVE HOME BANNER CHANGES</button>
+          </form>
+        </div>
+
+        <div class="nb-card">
+          <div class="eyebrow-tag">KEY METRICS</div>
+          <h2 style="font-size: 1.6rem; text-transform: uppercase; margin-bottom: 1.5rem;">HOME PAGE STATS METRICS</h2>
+
+          <form id="form-home-stats">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;" id="home-stats-fields-container">
+              <!-- Dynamically populated -->
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;">SAVE STATS METRICS</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- TAB 2: ABOUT US PAGE -->
+      <div id="tab-about" class="admin-tab-content">
+        <div class="nb-card" style="margin-bottom: 2rem;">
+          <div class="eyebrow-tag">ABOUT US CONFIGURATION</div>
+          <h2 style="font-size: 1.6rem; text-transform: uppercase; margin-bottom: 1.5rem;">EDIT VISION & ORIGIN</h2>
+
+          <form id="form-about-content">
+            <div class="admin-form-group">
+              <label>ABOUT HERO TITLE</label>
+              <input type="text" id="about-hero-title" class="admin-input" required />
+            </div>
+
+            <div class="admin-form-group">
+              <label>ABOUT HERO SUBTITLE</label>
+              <input type="text" id="about-hero-subtitle" class="admin-input" required />
+            </div>
+
+            <div class="admin-form-group">
+              <label>CORE VISION STATEMENT</label>
+              <textarea id="about-vision-text" class="admin-textarea" rows="4" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">SAVE ABOUT TEXT</button>
+          </form>
+        </div>
+
+        <div class="nb-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <div>
+              <div class="eyebrow-tag">TIMELINE HISTORY</div>
+              <h2 style="font-size: 1.6rem; text-transform: uppercase;">MILESTONES HISTORY</h2>
+            </div>
+            <button id="add-milestone-btn" class="btn btn-secondary">+ ADD MILESTONE</button>
+          </div>
+
+          <div id="admin-milestones-list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: PROJECTS -->
+      <div id="tab-projects" class="admin-tab-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;" class="nb-card">
+          <div>
+            <div class="eyebrow-tag">ROBOTICS HARDWARE INDEX</div>
+            <h2 style="font-size: 1.6rem; text-transform: uppercase;">MANAGE ALL PROJECTS (${projects.length})</h2>
+          </div>
+          <button id="add-project-btn" class="btn btn-primary">➕ ADD NEW PROJECT</button>
+        </div>
+
+        <div id="admin-projects-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- TAB 4: TEAM MEMBERS -->
+      <div id="tab-team" class="admin-tab-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;" class="nb-card">
+          <div>
+            <div class="eyebrow-tag">ROBOTICISTS & DIRECTORS</div>
+            <h2 style="font-size: 1.6rem; text-transform: uppercase;">MANAGE TEAM MEMBERS</h2>
+          </div>
+          <button id="add-team-btn" class="btn btn-primary">➕ ADD TEAM MEMBER</button>
+        </div>
+
+        <div id="admin-team-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- TAB 5: ACHIEVEMENTS -->
+      <div id="tab-achievements" class="admin-tab-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;" class="nb-card">
+          <div>
+            <div class="eyebrow-tag">AWARDS & COMPETITIONS</div>
+            <h2 style="font-size: 1.6rem; text-transform: uppercase;">MANAGE ACHIEVEMENTS</h2>
+          </div>
+          <button id="add-achievement-btn" class="btn btn-primary">➕ ADD ACHIEVEMENT</button>
+        </div>
+
+        <div id="admin-achievements-list">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- TAB 6: BLOGS -->
+      <div id="tab-blogs" class="admin-tab-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;" class="nb-card">
+          <div>
+            <div class="eyebrow-tag">WORKSHOP DISPATCHES</div>
+            <h2 style="font-size: 1.6rem; text-transform: uppercase;">MANAGE BLOG ARTICLES</h2>
+          </div>
+          <button id="add-blog-btn" class="btn btn-primary">➕ PUBLISH NEW DISPATCH</button>
+        </div>
+
+        <div id="admin-blogs-list">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- TAB: MEDIA & IMAGES MANAGER -->
+      <div id="tab-images" class="admin-tab-content">
+        <!-- Hero Banner Slideshow Gallery Manager -->
+        <div class="nb-card" style="margin-bottom: 2rem; background-color: #FFF; border: var(--border-width) solid var(--border-dark);">
+          <div class="eyebrow-tag" style="background-color: var(--yellow-accent); color: #000;">HERO SLIDESHOW CONTROL</div>
+          <h2 style="font-size: 1.8rem; text-transform: uppercase; margin-bottom: 0.5rem;">HOMEPAGE HERO SLIDESHOW MANAGER</h2>
+          <p style="font-size: 0.95rem; color: #555; margin-bottom: 1.5rem;">Upload local photos from your computer or enter image URLs to customize the rotating slideshow banner on the Home page.</p>
+
+          <div id="admin-hero-slideshow-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+            <!-- Dynamic hero slide cards -->
+          </div>
+
+          <div style="background-color: var(--bg-cream); border: var(--border-width) solid var(--border-dark); padding: 1.25rem; display: flex; flex-direction: column; gap: 1rem;">
+            <div style="font-weight: 900; font-size: 0.9rem; text-transform: uppercase; color: var(--electric-blue);">➕ ADD NEW SLIDE TO HERO BANNER</div>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <input type="text" id="new-hero-slide-url" class="admin-input" placeholder="Paste image URL (e.g. https://images.unsplash.com/...)" style="flex: 1; min-width: 250px;" />
+              <button type="button" onclick="addHeroSlideFromInput()" class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.6rem 1rem;">
+                ➕ ADD URL SLIDE
+              </button>
+              <label class="btn btn-primary" style="font-size: 0.85rem; padding: 0.6rem 1rem; cursor: pointer; margin: 0; background-color: var(--electric-blue); color: #FFF;">
+                📁 UPLOAD LOCAL IMAGE
+                <input type="file" id="new-hero-slide-file" accept="image/*" style="display: none;" />
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="nb-card" style="margin-bottom: 2rem; background-color: #FFF;">
+          <div class="eyebrow-tag" style="background-color: var(--yellow-accent); color: #000;">GLOBAL MEDIA CONTROL</div>
+          <h2 style="font-size: 1.8rem; text-transform: uppercase; margin-bottom: 0.5rem;">WEBSITE IMAGE ASSET MANAGER</h2>
+          <p style="font-size: 0.95rem; color: #555; margin-bottom: 1.5rem;">Upload local images directly from your computer or enter custom image URLs. Changes immediately update across all pages.</p>
+
+          <!-- Section Banners Form -->
+          <form id="form-site-images" style="border-top: var(--border-width) solid var(--border-dark); padding-top: 1.5rem;">
+            <h3 style="font-size: 1.25rem; text-transform: uppercase; margin-bottom: 1rem; color: var(--electric-blue);">1. PAGE SECTION & BANNER IMAGES</h3>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+              
+              <!-- Home Hero Image -->
+              <div style="border: var(--border-width) solid var(--border-dark); padding: 1rem; background-color: var(--bg-cream);">
+                <div style="font-weight: 900; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 0.5rem;">HOME HERO SHOWCASE PHOTO</div>
+                <div style="height: 140px; border: var(--border-width) solid var(--border-dark); overflow: hidden; margin-bottom: 0.75rem; background: #EEE;">
+                  <img id="img-prev-heroBg" src="" style="width: 100%; height: 100%; object-fit: cover;" alt="Hero Preview" />
+                </div>
+                <div class="admin-form-group">
+                  <label>IMAGE URL</label>
+                  <input type="text" id="img-url-heroBg" class="admin-input" placeholder="Paste URL or upload..." />
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                  <label class="btn btn-secondary" style="flex: 1; padding: 0.4rem; font-size: 0.75rem; text-align: center; cursor: pointer; margin: 0;">
+                    📁 UPLOAD FILE
+                    <input type="file" accept="image/*" class="img-file-uploader" data-target="img-url-heroBg" data-preview="img-prev-heroBg" style="display: none;" />
+                  </label>
+                </div>
+              </div>
+
+              <!-- Home Lab Team Image -->
+              <div style="border: var(--border-width) solid var(--border-dark); padding: 1rem; background-color: var(--bg-cream);">
+                <div style="font-weight: 900; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 0.5rem;">HOME "WHO WE ARE" LAB PHOTO</div>
+                <div style="height: 140px; border: var(--border-width) solid var(--border-dark); overflow: hidden; margin-bottom: 0.75rem; background: #EEE;">
+                  <img id="img-prev-labImg" src="" style="width: 100%; height: 100%; object-fit: cover;" alt="Lab Preview" />
+                </div>
+                <div class="admin-form-group">
+                  <label>IMAGE URL</label>
+                  <input type="text" id="img-url-labImg" class="admin-input" placeholder="Paste URL or upload..." />
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                  <label class="btn btn-secondary" style="flex: 1; padding: 0.4rem; font-size: 0.75rem; text-align: center; cursor: pointer; margin: 0;">
+                    📁 UPLOAD FILE
+                    <input type="file" accept="image/*" class="img-file-uploader" data-target="img-url-labImg" data-preview="img-prev-labImg" style="display: none;" />
+                  </label>
+                </div>
+              </div>
+
+              <!-- About Origin Image -->
+              <div style="border: var(--border-width) solid var(--border-dark); padding: 1rem; background-color: var(--bg-cream);">
+                <div style="font-weight: 900; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 0.5rem;">ABOUT PAGE ORIGIN LAB PHOTO</div>
+                <div style="height: 140px; border: var(--border-width) solid var(--border-dark); overflow: hidden; margin-bottom: 0.75rem; background: #EEE;">
+                  <img id="img-prev-aboutOriginImg" src="" style="width: 100%; height: 100%; object-fit: cover;" alt="Origin Preview" />
+                </div>
+                <div class="admin-form-group">
+                  <label>IMAGE URL</label>
+                  <input type="text" id="img-url-aboutOriginImg" class="admin-input" placeholder="Paste URL or upload..." />
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                  <label class="btn btn-secondary" style="flex: 1; padding: 0.4rem; font-size: 0.75rem; text-align: center; cursor: pointer; margin: 0;">
+                    📁 UPLOAD FILE
+                    <input type="file" accept="image/*" class="img-file-uploader" data-target="img-url-aboutOriginImg" data-preview="img-prev-aboutOriginImg" style="display: none;" />
+                  </label>
+                </div>
+              </div>
+
+              <!-- Club Logo / Brand Emblem Image -->
+              <div style="border: var(--border-width) solid var(--border-dark); padding: 1rem; background-color: var(--bg-cream);">
+                <div style="font-weight: 900; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 0.5rem;">CLUB LOGO & BRAND EMBLEM</div>
+                <div style="height: 140px; border: var(--border-width) solid var(--border-dark); overflow: hidden; margin-bottom: 0.75rem; background: #EEE; display: flex; align-items: center; justify-content: center;">
+                  <img id="img-prev-clubLogo" src="" style="max-width: 100%; max-height: 100%; object-fit: contain;" alt="Club Logo Preview" />
+                </div>
+                <div class="admin-form-group">
+                  <label>IMAGE URL</label>
+                  <input type="text" id="img-url-clubLogo" class="admin-input" placeholder="Paste URL or upload..." />
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                  <label class="btn btn-secondary" style="flex: 1; padding: 0.4rem; font-size: 0.75rem; text-align: center; cursor: pointer; margin: 0;">
+                    📁 UPLOAD FILE
+                    <input type="file" accept="image/*" class="img-file-uploader" data-target="img-url-clubLogo" data-preview="img-prev-clubLogo" style="display: none;" />
+                  </label>
+                </div>
+              </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem; width: 100%;">SAVE SECTION BANNERS</button>
+          </form>
+        </div>
+
+        <!-- Filter & Image Items Manager -->
+        <div class="nb-card" style="margin-bottom: 2rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+            <div>
+              <div class="eyebrow-tag">ITEM IMAGES DIRECTORY</div>
+              <h2 style="font-size: 1.5rem; text-transform: uppercase;">MODIFY PROJECT, TEAM, BLOG & ACHIEVEMENT IMAGES</h2>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <button class="img-filter-btn btn btn-secondary active" data-filter="all" style="padding: 0.3rem 0.7rem; font-size: 0.75rem;">ALL IMAGES</button>
+              <button class="img-filter-btn btn btn-secondary" data-filter="projects" style="padding: 0.3rem 0.7rem; font-size: 0.75rem;">PROJECTS</button>
+              <button class="img-filter-btn btn btn-secondary" data-filter="team" style="padding: 0.3rem 0.7rem; font-size: 0.75rem;">TEAM MEMBERS</button>
+              <button class="img-filter-btn btn btn-secondary" data-filter="blogs" style="padding: 0.3rem 0.7rem; font-size: 0.75rem;">BLOG COVERS</button>
+              <button class="img-filter-btn btn btn-secondary" data-filter="achievements" style="padding: 0.3rem 0.7rem; font-size: 0.75rem;">ACHIEVEMENTS</button>
+            </div>
+          </div>
+
+          <div id="admin-images-manager-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
+            <!-- Dynamically populated image cards -->
+          </div>
+        </div>
+
+        <!-- Curated Stock Robotics Presets -->
+        <div class="nb-card">
+          <div class="eyebrow-tag" style="background-color: var(--electric-blue); color: #FFF;">CURATED MEDIA LIBRARY</div>
+          <h2 style="font-size: 1.5rem; text-transform: uppercase; margin-bottom: 0.5rem;">ROBOTICS STOCK PHOTO PRESETS</h2>
+          <p style="font-size: 0.85rem; color: #555; margin-bottom: 1.25rem;">Click any image to copy its URL or apply it directly to your build projects or blog dispatches.</p>
+
+          <div id="admin-presets-gallery" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem;">
+            <!-- Dynamically populated presets -->
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 7: CONTACT & INBOX -->
+      <div id="tab-contact" class="admin-tab-content">
+        <div class="nb-card" style="margin-bottom: 2rem;">
+          <div class="eyebrow-tag">OFFICIAL DETAILS</div>
+          <h2 style="font-size: 1.6rem; text-transform: uppercase; margin-bottom: 1.5rem;">EDIT CONTACT INFORMATION</h2>
+
+          <form id="form-contact-info">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+              <div class="admin-form-group">
+                <label>OFFICIAL EMAIL</label>
+                <input type="email" id="contact-email" class="admin-input" required />
+              </div>
+
+              <div class="admin-form-group">
+                <label>PHONE NUMBER</label>
+                <input type="text" id="contact-phone" class="admin-input" required />
+              </div>
+            </div>
+
+            <div class="admin-form-group">
+              <label>LAB HOURS</label>
+              <input type="text" id="contact-hours" class="admin-input" required />
+            </div>
+
+            <div class="admin-form-group">
+              <label>PHYSICAL ADDRESS</label>
+              <textarea id="contact-address" class="admin-textarea" rows="2" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">SAVE CONTACT INFO</button>
+          </form>
+        </div>
+
+        <div class="nb-card">
+          <div class="eyebrow-tag">SUBMITTED MESSAGES</div>
+          <h2 style="font-size: 1.6rem; text-transform: uppercase; margin-bottom: 1rem;">RECEIVED CONTACT FORM INBOX</h2>
+
+          <div id="admin-inbox-container">
+            <!-- Dynamically populated table -->
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 8: SYSTEM & RESET -->
+      <div id="tab-system" class="admin-tab-content">
+        <div class="nb-card" style="margin-bottom: 2rem;">
+          <div class="eyebrow-tag eyebrow-tag-dark">BACKUP & RESTORE</div>
+          <h2 style="font-size: 1.6rem; text-transform: uppercase; margin-bottom: 1rem;">SYSTEM DATA MANAGEMENT</h2>
+          <p style="margin-bottom: 1.5rem; color: #555;">Export all current website content as a JSON file, import a backup, or restore original club defaults.</p>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+            <button id="sys-export-btn" class="btn btn-primary">📥 EXPORT DATA (JSON)</button>
+            <label class="btn btn-secondary" style="margin: 0; cursor: pointer;">
+              📤 IMPORT DATA (JSON)
+              <input type="file" id="sys-import-input" accept=".json" style="display: none;" />
+            </label>
+            <button id="sys-reset-btn" class="btn btn-primary" style="background-color: #FF2D5B; margin-left: auto;">⚠️ RESET TO ORIGINAL DEFAULTS</button>
+          </div>
+        </div>
+      </div>
+
+      </main> <!-- .admin-main-area -->
+    </div> <!-- .admin-layout-wrapper -->
+  </div> <!-- #admin-workspace -->
+
+  <!-- Reusable Universal Modal Container for Adding / Editing -->
+  <div id="admin-editor-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 700px; width: 92%; max-height: 85vh; overflow-y: auto;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; border-bottom: var(--border-width) solid var(--border-dark); padding-bottom: 0.75rem;">
+        <h3 id="modal-editor-title" style="font-size: 1.4rem; text-transform: uppercase;">EDIT ITEM</h3>
+        <button id="modal-editor-close-btn" style="background: none; border: none; font-size: 1.5rem; font-weight: 900; cursor: pointer;">✕</button>
+      </div>
+
+      <div id="modal-editor-body">
+        <!-- Dynamically injected edit form -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="admin-toast" class="toast-notify">
+    ✅ CHANGES SAVED SUCCESSFULLY!
+  </div>
+
+  <script src="./js/data-store.js"></script>
+  <script src="./js/main.js"></script>
+  <script src="./js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maze Solver Micromouse Spec Sheet | Kreatorz Robotics</title>
+  <meta name="description" content="Technical spec sheet and 3D interactive breakdown of Kreatorz Autonomous Micromouse Maze Solver Bot." />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+  <!-- Sticky Top Navbar -->
+  <header class="sticky-navbar">
+    <div class="container-custom nav-container">
+      <a href="../index.html" class="brand-logo">
+        <span class="brand-logo-icon">K</span>
+        <span>KREATORZ</span>
+      </a>
+
+      <button class="mobile-toggle" aria-label="Toggle navigation">☰</button>
+
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="../index.html" class="nav-link">Home</a></li>
+          <li><a href="../about.html" class="nav-link">About Us</a></li>
+          <li><a href="../projects.html" class="nav-link active">Projects</a></li>
+          <li><a href="../team.html" class="nav-link">Team</a></li>
+          <li><a href="../achievements.html" class="nav-link">Achievements</a></li>
+          <li><a href="../blogs.html" class="nav-link">Blogs</a></li>
+          <li><a href="../contact.html" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Interactive 3D Showcase Viewport Grid -->
+  <section style="background-color: var(--bg-cream); border-bottom: var(--border-width) solid var(--border-dark);">
+    <div style="display: grid; grid-template-columns: minmax(300px, 1fr) minmax(350px, 1fr); min-height: 80vh;">
+      
+      <!-- Left: Interactive Canvas Viewport -->
+      <div id="canvas-container" style="position: sticky; top: 70px; height: calc(100vh - 70px); background-color: #FAF8F2; overflow: hidden; border-right: var(--border-width) solid var(--border-dark);">
+        <canvas id="three-canvas" style="width: 100%; height: 100%; display: block;"></canvas>
+
+        <div style="position: absolute; bottom: 1.5rem; left: 1.5rem; right: 1.5rem; display: flex; justify-content: space-between; align-items: flex-end; pointer-events: none;">
+          <div class="nb-card" style="padding: 0.75rem 1rem; pointer-events: auto; background-color: rgba(250,248,242,0.9);">
+            <div style="font-size: 0.75rem; font-weight: 700; color: #666; text-transform: uppercase;">ALGORITHM RUNTIME</div>
+            <div style="font-family: var(--font-heading); font-weight: 700; font-size: 0.95rem; margin-top: 0.2rem;">
+              SOLVER: <span style="color: var(--electric-blue);">FLOOD-FILL V2</span>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; pointer-events: auto;">
+            <button id="btn-reset-view" class="btn btn-secondary" style="padding: 0.5rem 0.75rem; font-size: 0.8rem;">RESET VIEW</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Storyline & Spec Sheet -->
+      <div style="padding: 3rem 2.5rem; overflow-y: auto;">
+        <a href="../projects.html" style="font-weight: 700; font-size: 0.9rem; color: #555; text-transform: uppercase; text-decoration: none;">← Back to Projects</a>
+        
+        <div style="margin-top: 1rem; margin-bottom: 2.5rem;">
+          <div class="eyebrow-tag">AUTONOMOUS ALGORITHMS DIVISION</div>
+          <h1 style="font-size: 2.8rem; text-transform: uppercase; margin-bottom: 0.75rem;">MICROMOUSE MAZE SOLVER</h1>
+          <p style="font-size: 1.1rem; color: #444; line-height: 1.6;">
+            A lightweight, ultra-nimble autonomous robot designed to map 16x16 mazes on its exploration pass and sprint optimal trajectories at 3.2m/s.
+          </p>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 2.5rem;">
+          
+          <div id="step-1" class="nb-card reveal" style="padding: 1.5rem;">
+            <span class="eyebrow-tag" style="background-color: var(--electric-blue); color: #FFF;">STEP 01</span>
+            <h3 style="font-size: 1.3rem; margin-top: 0.5rem; margin-bottom: 0.5rem;">WALL MAPPING & IR PROXIMITY</h3>
+            <p style="font-size: 0.92rem; color: #555555; line-height: 1.6;">
+              Equipped with 6 high-speed infrared distance emitters and receivers sampling wall distances at 1,000Hz to eliminate drift.
+            </p>
+          </div>
+
+          <div id="step-2" class="nb-card reveal" style="padding: 1.5rem;">
+            <span class="eyebrow-tag" style="background-color: var(--neon-accent); color: #FFF;">STEP 02</span>
+            <h3 style="font-size: 1.3rem; margin-top: 0.5rem; margin-bottom: 0.5rem;">FLOOD-FILL PATH SOLVER</h3>
+            <p style="font-size: 0.92rem; color: #555555; line-height: 1.6;">
+              Modified Flood-Fill algorithm dynamically recalculates distance metrics upon discovering dead ends, selecting diagonal acceleration curves for the final speed run.
+            </p>
+          </div>
+
+        </div>
+
+        <div style="margin-top: 3.5rem;">
+          <div class="eyebrow-tag eyebrow-tag-dark">SPECIFICATIONS</div>
+          <h2 style="font-size: 1.8rem; text-transform: uppercase; margin-bottom: 1.5rem;">ROBOT METRICS</h2>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="nb-card" style="padding: 1rem;">
+              <div style="font-size: 0.8rem; color: #666; font-weight: 700;">TOTAL WEIGHT</div>
+              <div style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700;">115 GRAMS</div>
+            </div>
+            <div class="nb-card" style="padding: 1rem;">
+              <div style="font-size: 0.8rem; color: #666; font-weight: 700;">MAX SPEED</div>
+              <div style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700;">3.2 M/S</div>
+            </div>
+            <div class="nb-card" style="padding: 1rem;">
+              <div style="font-size: 0.8rem; color: #666; font-weight: 700;">MICROCONTROLLER</div>
+              <div style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700;">STM32F411</div>
+            </div>
+            <div class="nb-card" style="padding: 1rem;">
+              <div style="font-size: 0.8rem; color: #666; font-weight: 700;">MOTORS</div>
+              <div style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700;">Coreless Encoders</div>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-section">
+    <div class="container-custom">
+      <div class="footer-grid">
+        <div>
+          <a href="../index.html" class="brand-logo" style="color: #FFFFFF; margin-bottom: 1rem;">
+            <span class="brand-logo-icon">K</span>
+            <span>KREATORZ</span>
+          </a>
+          <p style="margin-bottom: 1rem; line-height: 1.6;">
+            The elite robotics & automation hub of MVGR College of Engineering. Building hardware, systems, and algorithms for next-gen rovers, drones, and battle bots.
+          </p>
+        </div>
+
+        <div>
+          <h4>PAGES</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../about.html">About Us</a></li>
+            <li><a href="../projects.html">Projects</a></li>
+            <li><a href="../team.html">Our Team</a></li>
+            <li><a href="../achievements.html">Achievements</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>PROJECTS</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+            <li><a href="drone.html">Autonomous Drone</a></li>
+            <li><a href="robo-rumble.html">Robo Rumble Combat</a></li>
+            <li><a href="maze-solver.html">Maze Solver bot</a></li>
+            <li><a href="fpv-drone.html">FPV Racing Drone</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>CONNECT</h4>
+          <p style="margin-bottom: 0.5rem;">MVGR College, Vizianagaram</p>
+          <p style="margin-bottom: 0.5rem;">kreatorz@mvgrce.edu.in</p>
+          <p style="margin-bottom: 1rem;">+91 98765 43210</p>
+          <div class="social-links">
+            <a href="https://instagram.com" target="_blank" class="social-icon-btn" aria-label="Instagram">IG</a>
+            <a href="https://linkedin.com" target="_blank" class="social-icon-btn" aria-label="LinkedIn">IN</a>
+            <a href="https://youtube.com" target="_blank" class="social-icon-btn" aria-label="YouTube">YT</a>
+            <a href="https://github.com" target="_blank" class="social-icon-btn" aria-label="GitHub">GH</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 Kreatorz Robotics Club, MVGR CE. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script src="./js/maze-solver-3d.js"></script>
+</body>
+</html>

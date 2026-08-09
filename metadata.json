@@ -1,0 +1,6 @@
+{
+  "name": "Kreatorz - MVGR Robotics Club",
+  "description": "Production-ready multi-page neo-brutalist website and 3D interactive showcase for Kreatorz Robotics Club at MVGR College of Engineering.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

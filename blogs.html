@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Workbench Blogs & Guides | Kreatorz Robotics Club</title>
+  <meta name="description" content="Technical teardowns, ROS setup guides, build logs, and competition writeups from Kreatorz." />
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+
+  <!-- Sticky Top Navbar -->
+  <header class="sticky-navbar">
+    <div class="container-custom nav-container">
+      <a href="index.html" class="brand-logo">
+        <span class="brand-logo-icon">K</span>
+        <span>KREATORZ</span>
+      </a>
+
+      <button class="mobile-toggle" aria-label="Toggle navigation">☰</button>
+
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="about.html" class="nav-link">About Us</a></li>
+          <li><a href="projects.html" class="nav-link">Projects</a></li>
+          <li><a href="team.html" class="nav-link">Team</a></li>
+          <li><a href="achievements.html" class="nav-link">Achievements</a></li>
+          <li><a href="blogs.html" class="nav-link active">Blogs</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="page-hero-banner">
+    <div class="container-custom reveal">
+      <h1>FROM THE WORKBENCH</h1>
+      <p>Insights, hardware teardowns, firmware setup guides, and structural post-mortems written by Kreatorz builders.</p>
+    </div>
+  </section>
+
+  <!-- Filter Pills Bar -->
+  <section class="section-padding-sm" style="background-color: #FFFFFF; border-bottom: var(--border-width) solid var(--border-dark);">
+    <div class="container-custom">
+      <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center;">
+        <span style="font-weight: 700; font-size: 0.85rem; text-transform: uppercase; margin-right: 0.5rem;">FILTER BY:</span>
+        <button class="btn btn-primary blog-filter-btn" data-category="all">ALL ARTICLES</button>
+        <button class="btn btn-secondary blog-filter-btn" data-category="build-logs">BUILD LOGS</button>
+        <button class="btn btn-secondary blog-filter-btn" data-category="tutorials">TUTORIALS</button>
+        <button class="btn btn-secondary blog-filter-btn" data-category="event-recaps">EVENT RECAPS</button>
+        <button class="btn btn-secondary blog-filter-btn" data-category="behind-scenes">BEHIND THE SCENES</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Cards Grid -->
+  <section class="section-padding">
+    <div class="container-custom">
+      <div class="blog-grid" id="blogs-grid-container">
+
+        <!-- Blog 1 -->
+        <div class="blog-card blog-card-item reveal" data-category="build-logs">
+          <img src="https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=600&q=80" alt="Blog 1" class="blog-card-img" referrerPolicy="no-referrer" />
+          <div class="blog-card-content">
+            <div class="blog-meta">
+              <span class="blog-category-badge">BUILD LOGS</span>
+              <span>FEB 20, 2026</span>
+            </div>
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.75rem;">Building Our First Autonomous Spraying Drone</h3>
+            <p style="font-size: 0.9rem; color: #555555; margin-bottom: 1.25rem; flex-grow: 1;">
+              Detailed breakdown of selecting brushless ESCs, calibrating ArduPilot firmware, and fabricating carbon booms.
+            </p>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 700;">
+              <span>By Sai Kiran</span>
+              <span style="color: var(--electric-blue);">READ LOG →</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blog 2 -->
+        <div class="blog-card blog-card-item reveal" data-category="event-recaps">
+          <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80" alt="Blog 2" class="blog-card-img" referrerPolicy="no-referrer" />
+          <div class="blog-card-content">
+            <div class="blog-meta">
+              <span class="blog-category-badge">EVENT RECAPS</span>
+              <span>JAN 15, 2026</span>
+            </div>
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.75rem;">How We Won Smart India Hackathon 2024</h3>
+            <p style="font-size: 0.9rem; color: #555555; margin-bottom: 1.25rem; flex-grow: 1;">
+              The 36-hour sprint: coding computer vision models on zero sleep and testing payload accuracy under real wind conditions.
+            </p>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 700;">
+              <span>By Divya Sree</span>
+              <span style="color: var(--electric-blue);">READ LOG →</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blog 3 -->
+        <div class="blog-card blog-card-item reveal" data-category="tutorials">
+          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80" alt="Blog 3" class="blog-card-img" referrerPolicy="no-referrer" />
+          <div class="blog-card-content">
+            <div class="blog-meta">
+              <span class="blog-category-badge">TUTORIALS</span>
+              <span>DEC 12, 2025</span>
+            </div>
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.75rem;">ROS2 Setup Guide for Beginners on Ubuntu</h3>
+            <p style="font-size: 0.9rem; color: #555555; margin-bottom: 1.25rem; flex-grow: 1;">
+              A step-by-step walk-through for setting up colcon workspaces, publisher-subscriber nodes, and RViz visualization.
+            </p>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 700;">
+              <span>By Abhishek Naidu</span>
+              <span style="color: var(--electric-blue);">READ LOG →</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blog 4 -->
+        <div class="blog-card blog-card-item reveal" data-category="behind-scenes">
+          <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80" alt="Blog 4" class="blog-card-img" referrerPolicy="no-referrer" />
+          <div class="blog-card-content">
+            <div class="blog-meta">
+              <span class="blog-category-badge">BEHIND THE SCENES</span>
+              <span>NOV 04, 2025</span>
+            </div>
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.75rem;">Inside Robocon 2023: Pneumatics & Wheels</h3>
+            <p style="font-size: 0.9rem; color: #555555; margin-bottom: 1.25rem; flex-grow: 1;">
+              How we solved high-pressure solenoid valve latency and achieved smooth 360-degree omnidirectional movement.
+            </p>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 700;">
+              <span>By Teja Roy</span>
+              <span style="color: var(--electric-blue);">READ LOG →</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blog 5 -->
+        <div class="blog-card blog-card-item reveal" data-category="tutorials">
+          <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80" alt="Blog 5" class="blog-card-img" referrerPolicy="no-referrer" />
+          <div class="blog-card-content">
+            <div class="blog-meta">
+              <span class="blog-category-badge">TUTORIALS</span>
+              <span>OCT 24, 2025</span>
+            </div>
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.75rem;">Designing PCBs for High-Current Combat Bots</h3>
+            <p style="font-size: 0.9rem; color: #555555; margin-bottom: 1.25rem; flex-grow: 1;">
+              Copper weight calculations, trace widths, thermal via placement, and EMI shielding for 100A motor drivers.
+            </p>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 700;">
+              <span>By Sneha Reddy</span>
+              <span style="color: var(--electric-blue);">READ LOG →</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blog 6 -->
+        <div class="blog-card blog-card-item reveal" data-category="event-recaps">
+          <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80" alt="Blog 6" class="blog-card-img" referrerPolicy="no-referrer" />
+          <div class="blog-card-content">
+            <div class="blog-meta">
+              <span class="blog-category-badge">EVENT RECAPS</span>
+              <span>SEP 10, 2025</span>
+            </div>
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.75rem;">TechFest IIT Bombay Catamaran Challenge</h3>
+            <p style="font-size: 0.9rem; color: #555555; margin-bottom: 1.25rem; flex-grow: 1;">
+              Lessons learned from aquatic buoy tracking, wireless packet loss over water, and waterproofing twin thrusters.
+            </p>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 700;">
+              <span>By Pranav Varma</span>
+              <span style="color: var(--electric-blue);">READ LOG →</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Pagination -->
+      <div style="display: flex; justify-content: center; gap: 0.5rem; margin-top: 3.5rem;">
+        <button class="btn btn-primary" style="padding: 0.5rem 1rem;">1</button>
+        <button class="btn btn-secondary" style="padding: 0.5rem 1rem;">2</button>
+        <button class="btn btn-secondary" style="padding: 0.5rem 1rem;">3</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Signup Band -->
+  <section class="section-padding" style="background-color: var(--text-dark); color: #FFFFFF;">
+    <div class="container-custom reveal" style="max-width: 700px; text-align: center;">
+      <div class="eyebrow-tag" style="background-color: var(--electric-blue); color: #FFF;">STAY IN THE LOOP</div>
+      <h2 style="font-size: 2.2rem; text-transform: uppercase; color: #FFFFFF; margin-bottom: 1rem;">DISPATCH FROM THE WORKBENCH</h2>
+      <p style="color: #CCCCCC; margin-bottom: 2rem;">
+        Get monthly build logs, circuit diagrams, event announcements, and recruitment notifications directly in your inbox.
+      </p>
+
+      <form id="newsletter-form" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <input type="email" class="nb-input" placeholder="Enter your email address..." required style="flex-grow: 1;" />
+        <button type="submit" class="btn btn-primary">SUBSCRIBE</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-section">
+    <div class="container-custom">
+      <div class="footer-grid">
+        <div>
+          <a href="index.html" class="brand-logo" style="color: #FFFFFF; margin-bottom: 1rem;">
+            <span class="brand-logo-icon">K</span>
+            <span>KREATORZ</span>
+          </a>
+          <p style="margin-bottom: 1rem; line-height: 1.6;">
+            The elite robotics & automation hub of MVGR College of Engineering. Building hardware, systems, and algorithms for next-gen rovers, drones, and battle bots.
+          </p>
+        </div>
+
+        <div>
+          <h4>PAGES</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="team.html">Our Team</a></li>
+            <li><a href="achievements.html">Achievements</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>PROJECTS</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+            <li><a href="projects/drone.html">Autonomous Drone</a></li>
+            <li><a href="projects/robo-rumble.html">Robo Rumble Combat</a></li>
+            <li><a href="projects/maze-solver.html">Maze Solver bot</a></li>
+            <li><a href="projects/fpv-drone.html">FPV Racing Drone</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>CONNECT</h4>
+          <p style="margin-bottom: 0.5rem;">MVGR College, Vizianagaram</p>
+          <p style="margin-bottom: 0.5rem;">kreatorz@mvgrce.edu.in</p>
+          <p style="margin-bottom: 1rem;">+91 98765 43210</p>
+          <div class="social-links">
+            <a href="https://instagram.com" target="_blank" class="social-icon-btn" aria-label="Instagram">IG</a>
+            <a href="https://linkedin.com" target="_blank" class="social-icon-btn" aria-label="LinkedIn">IN</a>
+            <a href="https://youtube.com" target="_blank" class="social-icon-btn" aria-label="YouTube">YT</a>
+            <a href="https://github.com" target="_blank" class="social-icon-btn" aria-label="GitHub">GH</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+        <div>© 2026 Kreatorz Robotics Club, MVGR CE. All rights reserved.</div>
+        <div><a href="admin.html" style="font-weight: 700; color: var(--electric-blue); font-size: 0.85rem;">⚙️ ADMIN PANEL LOGIN</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./js/data-store.js"></script>
+  <script src="./js/render-store.js"></script>
+  <script src="./js/main.js"></script>
+</body>
+</html>

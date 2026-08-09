@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects Archive | Kreatorz Robotics Club</title>
+  <meta name="description" content="Explore the full archive of 7 flagship robotics builds created by Kreatorz at MVGR." />
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+
+  <!-- Sticky Top Navbar -->
+  <header class="sticky-navbar">
+    <div class="container-custom nav-container">
+      <a href="index.html" class="brand-logo">
+        <span class="brand-logo-icon">K</span>
+        <span>KREATORZ</span>
+      </a>
+
+      <button class="mobile-toggle" aria-label="Toggle navigation">☰</button>
+
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="about.html" class="nav-link">About Us</a></li>
+          <li><a href="projects.html" class="nav-link active">Projects</a></li>
+          <li><a href="team.html" class="nav-link">Team</a></li>
+          <li><a href="achievements.html" class="nav-link">Achievements</a></li>
+          <li><a href="blogs.html" class="nav-link">Blogs</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="page-hero-banner">
+    <div class="container-custom reveal">
+      <h1>PROJECTS ARCHIVE</h1>
+      <p>7 Flagship builds engineered, manufactured, and written from scratch inside MVGR lab stations.</p>
+    </div>
+  </section>
+
+  <!-- Projects Alternating Showcase -->
+  <section class="section-padding">
+    <div class="container-custom">
+      <div class="projects-alternating-container" id="projects-grid-container">
+        <!-- Dynamically rendered alternating project blocks from KreatorzStore -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Engineering Excellence Banner -->
+  <section class="section-padding-sm" style="background-color: #EFECE6; text-align: center; border-top: var(--border-width) solid var(--border-dark);">
+    <div class="container-custom">
+      <div style="display: inline-flex; align-items: center; gap: 0.75rem; font-weight: 800; font-size: 1.05rem; text-transform: uppercase;">
+        <span style="font-size: 1.5rem;">⚙️</span>
+        <span>100% Student Engineered • Machined & Tested in MVGR Lab Stations</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-section">
+    <div class="container-custom">
+      <div class="footer-grid">
+        <div>
+          <a href="index.html" class="brand-logo" style="color: #FFFFFF; margin-bottom: 1rem;">
+            <span class="brand-logo-icon">K</span>
+            <span>KREATORZ</span>
+          </a>
+          <p style="margin-bottom: 1rem; line-height: 1.6;">
+            The elite robotics & automation hub of MVGR College of Engineering. Building hardware, systems, and algorithms for next-gen rovers, drones, and battle bots.
+          </p>
+        </div>
+
+        <div>
+          <h4>PAGES</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="team.html">Our Team</a></li>
+            <li><a href="achievements.html">Achievements</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>PROJECTS</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+            <li><a href="projects/drone.html">Autonomous Drone</a></li>
+            <li><a href="projects/robo-rumble.html">Robo Rumble Combat</a></li>
+            <li><a href="projects/maze-solver.html">Maze Solver bot</a></li>
+            <li><a href="projects/fpv-drone.html">FPV Racing Drone</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>CONNECT</h4>
+          <p style="margin-bottom: 0.5rem;">MVGR College, Vizianagaram</p>
+          <p style="margin-bottom: 0.5rem;">kreatorz@mvgrce.edu.in</p>
+          <p style="margin-bottom: 1rem;">+91 98765 43210</p>
+          <div class="social-links">
+            <a href="https://instagram.com" target="_blank" class="social-icon-btn" aria-label="Instagram">IG</a>
+            <a href="https://linkedin.com" target="_blank" class="social-icon-btn" aria-label="LinkedIn">IN</a>
+            <a href="https://youtube.com" target="_blank" class="social-icon-btn" aria-label="YouTube">YT</a>
+            <a href="https://github.com" target="_blank" class="social-icon-btn" aria-label="GitHub">GH</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+        <div>© 2026 Kreatorz Robotics Club, MVGR CE. All rights reserved.</div>
+        <div><a href="admin.html" style="font-weight: 700; color: var(--electric-blue); font-size: 0.85rem;">⚙️ ADMIN PANEL LOGIN</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./js/data-store.js"></script>
+  <script src="./js/render-store.js"></script>
+  <script src="./js/main.js"></script>
+</body>
+</html>
