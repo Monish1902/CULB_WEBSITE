@@ -2,16 +2,25 @@
    Kreatorz Robotics Club - Admin Panel Controller JS
    ========================================================================== */
 
+import './data-store.js';
+import './render-store.js';
+
 const ADMIN_ID = "Kreatroz";
 const ADMIN_PASS = "We are Kreatorz!";
 
-document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAdminApp);
+} else {
+  initAdminApp();
+}
+
+function initAdminApp() {
   if (window.updateAllBrandingInUI) {
     window.updateAllBrandingInUI();
   }
   initAdminAuth();
   initAdminTabs();
-});
+}
 
 /* --------------------------------------------------------------------------
    1. AUTHENTICATION CONTROLLER

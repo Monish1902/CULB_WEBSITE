@@ -2,9 +2,11 @@
    3D Interactive Showcase - Maze Solver Micromouse
    ========================================================================== */
 
-document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initMazeSolver3D);
+} else {
   initMazeSolver3D();
-});
+}
 
 function initMazeSolver3D() {
   const container = document.getElementById('canvas-container');

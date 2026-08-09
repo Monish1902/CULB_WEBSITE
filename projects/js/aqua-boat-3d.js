@@ -2,9 +2,11 @@
    3D Interactive Showcase - Aqua Boat USV
    ========================================================================== */
 
-document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAquaBoat3D);
+} else {
   initAquaBoat3D();
-});
+}
 
 function initAquaBoat3D() {
   const container = document.getElementById('canvas-container');

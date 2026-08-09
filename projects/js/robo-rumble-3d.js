@@ -2,9 +2,11 @@
    3D Interactive Showcase - Robo Rumble Combat Bot
    ========================================================================== */
 
-document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initRoboRumble3D);
+} else {
   initRoboRumble3D();
-});
+}
 
 function initRoboRumble3D() {
   const container = document.getElementById('canvas-container');

@@ -2,9 +2,11 @@
    3D Interactive Showcase - Autonomous Drone
    ========================================================================== */
 
-document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initDrone3D);
+} else {
   initDrone3D();
-});
+}
 
 function initDrone3D() {
   const container = document.getElementById('canvas-container');

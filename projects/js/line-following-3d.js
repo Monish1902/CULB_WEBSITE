@@ -2,9 +2,11 @@
    3D Interactive Showcase - Line-Following Bot
    ========================================================================== */
 
-document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initLineFollowing3D);
+} else {
   initLineFollowing3D();
-});
+}
 
 function initLineFollowing3D() {
   const container = document.getElementById('canvas-container');

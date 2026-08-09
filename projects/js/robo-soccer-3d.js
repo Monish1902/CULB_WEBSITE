@@ -2,9 +2,11 @@
    3D Interactive Showcase - Robo Soccer Bot
    ========================================================================== */
 
-document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initRoboSoccer3D);
+} else {
   initRoboSoccer3D();
-});
+}
 
 function initRoboSoccer3D() {
   const container = document.getElementById('canvas-container');

@@ -2,7 +2,23 @@
    Kreatorz Robotics Club - Master UI & Interactions JS
    ========================================================================== */
 
-document.addEventListener('DOMContentLoaded', () => {
+import '../css/styles.css';
+import '../css/three-showcase.css';
+import './data-store.js';
+import './render-store.js';
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
+
+function initApp() {
+  if (window.renderDynamicPages) {
+    window.renderDynamicPages();
+  } else if (window.updateAllBrandingInUI) {
+    window.updateAllBrandingInUI();
+  }
   initNavbar();
   initActiveNav();
   initScrollReveal();
@@ -11,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initForms();
   initSmoothScroll();
   initMagneticDotsBackground();
-});
+}
 
 /* 1. Mobile Menu & Sticky Navbar */
 function initNavbar() {
